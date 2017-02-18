@@ -163,6 +163,7 @@ lli curL;
 lli amT, amM;
 lli surf;
 bool pris[1042][1042];
+bool dejaVu[1042][1042];
 
 set<Coin> coins;
 vector<Part> parts;
@@ -191,52 +192,60 @@ int main()
     {
         Coin cur = *coins.begin();
         coins.erase(coins.begin());
-        if(!pris[cur.r][cur.c])
+        if(!dejaVu[cur.r][cur.c])
         {
-            vector<Coin> sel;
-            FORU(i, cur.r, min(nbLig, cur.r+maxi)-1)
+            dejaVu[cur.r][cur.c] = true;
+            if(cur.r < nbLig-1)
+                coins.insert(Coin(cur.r+1, cur.c, rand()%(int)(1E9+7)));
+            if(cur.c < nbLig-1)
+                coins.insert(Coin(cur.r, cur.c+1, rand()%(int)(1E9+7)));
+            if(!pris[cur.r][cur.c])
             {
-                int deb = cur.c, fin = min(nbCol, cur.c+maxi)-1;
-                while(deb < fin)
+                vector<Coin> sel;
+                FORU(i, cur.r, min(nbLig, cur.r+maxi)-1)
                 {
-                    int mil = (deb + fin) / 2;
-                    int nbT = cPizza[i+1][mil+1] - cPizza[i+1][cur.c] - cPizza[cur.r][mil+1] + cPizza[cur.r][cur.c];
-                    int nbM = (i - cur.r + 1) * (mil - cur.c + 1) - nbT;
-                    if(nbT >= mini && nbM >= mini)
-                        fin = mil;
-                    else
-                        deb = mil + 1;
-                }
-                int nbT = cPizza[i+1][deb+1] - cPizza[i+1][cur.c] - cPizza[cur.r][deb+1] + cPizza[cur.r][cur.c];
-                int nbM = (i - cur.r + 1) * (deb - cur.c + 1) - nbT;
-                bool valid = nbT >= mini && nbM >= mini && nbT + nbM <= maxi;
-                FORU(i2, cur.r, i)
-                    FORU(j, cur.c, deb)
-                        if(pris[i2][j])
-                            valid = false;
-                int borneMax = deb;
-                while(valid && borneMax < nbCol)
-                {
-                    ++borneMax;
+                    int deb = cur.c, fin = min(nbCol, cur.c+maxi)-1;
+                    while(deb < fin)
+                    {
+                        int mil = (deb + fin) / 2;
+                        int nbT = cPizza[i+1][mil+1] - cPizza[i+1][cur.c] - cPizza[cur.r][mil+1] + cPizza[cur.r][cur.c];
+                        int nbM = (i - cur.r + 1) * (mil - cur.c + 1) - nbT;
+                        if(nbT >= mini && nbM >= mini)
+                            fin = mil;
+                        else
+                            deb = mil + 1;
+                    }
+                    int nbT = cPizza[i+1][deb+1] - cPizza[i+1][cur.c] - cPizza[cur.r][deb+1] + cPizza[cur.r][cur.c];
+                    int nbM = (i - cur.r + 1) * (deb - cur.c + 1) - nbT;
+                    bool valid = nbT >= mini && nbM >= mini && nbT + nbM <= maxi;
                     FORU(i2, cur.r, i)
-                        if(pris[i2][borneMax])
-                            valid = false;
-                    valid &= (i - cur.r + 1) * (borneMax - cur.c + 1) <= maxi;
+                        FORU(j, cur.c, deb)
+                            if(pris[i2][j])
+                                valid = false;
+                    int borneMax = deb;
+                    while(valid && borneMax < nbCol)
+                    {
+                        ++borneMax;
+                        FORU(i2, cur.r, i)
+                            if(pris[i2][borneMax])
+                                valid = false;
+                        valid &= (i - cur.r + 1) * (borneMax - cur.c + 1) <= maxi;
+                    }
+                    if(borneMax != deb)
+                        sel.push_back(Coin(i, rand() % (borneMax-min(deb, borneMax-1)) + min(deb, borneMax - 1), rand()%(int)(1E9+7)));
                 }
-                if(borneMax != deb)
-                    sel.push_back(Coin(i, rand() % (borneMax-min(deb, borneMax-1)) + min(deb, borneMax - 1), rand()%(int)(1E9+7)));
-            }
-            if(sel.size())
-            {
-                sort(sel.begin(), sel.end());
-                parts.push_back(Part(cur.r, cur.c, sel[0].r, sel[0].c));
-                FORU(i, cur.r, sel[0].r)
-                    FORU(j, cur.c, sel[0].c)
-                        pris[i][j] = 1;
-                FORU(i, cur.r, sel[0].r+1)
-                    coins.insert(Coin(i, sel[0].c+1, rand()%(int)(1E9+7)));
-                FORU(i, cur.c, sel[0].c)
-                    coins.insert(Coin(sel[0].r+1, i, rand()%(int)(1E9+7)));
+                if(sel.size())
+                {
+                    sort(sel.begin(), sel.end());
+                    parts.push_back(Part(cur.r, cur.c, sel[0].r, sel[0].c));
+                    FORU(i, cur.r, sel[0].r)
+                        FORU(j, cur.c, sel[0].c)
+                            pris[i][j] = 1;
+                    //FORU(i, cur.r, sel[0].r+1)
+                    //    coins.insert(Coin(i, sel[0].c+1, rand()%(int)(1E9+7)));
+                    //FORU(i, cur.c, sel[0].c)
+                    //    coins.insert(Coin(sel[0].r+1, i, rand()%(int)(1E9+7)));
+                }
             }
         }
     }
