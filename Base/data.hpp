@@ -45,9 +45,13 @@ struct Part {
     size_t x1, x2, y1, y2;
 };
 
-ostream& operator<< (ostream& out, const Part& pt) {
+inline ostream& operator<< (ostream& out, const Part& pt) {
     out << pt.x1 << " " << pt.y1 << " " << pt.x2 << " " << pt.y2;
     return out;
+}
+
+inline PizzaData partValue(const Pizza& piz, const Part& p) {
+    return piz[p.x2][p.y2] + piz[p.x1][p.y1] - piz[p.x1][p.y2] - piz[p.x2][p.y1];
 }
 
 #endif
