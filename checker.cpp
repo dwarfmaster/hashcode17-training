@@ -146,6 +146,7 @@ lli cCut[1042][1042];
 char tmp;
 lli curL;
 lli amT, amM;
+lli surf;
 
 int main(int argc, char** argv)
 {
@@ -181,6 +182,7 @@ int main(int argc, char** argv)
             PR("La part", r1, c1, r2, c2, "a des coordonées invalides");
         ++r1; ++r2;
         ++c1; ++c2;
+        surf += (r2-r1+1)*(c2-c1+1);
         cut[r1][c1] += 1;
         cut[r2+1][c2+1] += 1;
         cut[r1][c2+1] += -1;
@@ -208,6 +210,6 @@ int main(int argc, char** argv)
             if(cCut[i][j] > 1)
                 PR("La case", i-1, j-1, "à étée prise trop de fois");
     if(error == false)
-        PR(n);
+        PR(surf);
     return 0;
 }
