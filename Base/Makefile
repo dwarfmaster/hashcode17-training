@@ -9,6 +9,7 @@ HD = $(wildcard *.hpp)
 all: pizza
 
 pizza: $(OBJ)
+	g++ $(FLAGS) -c -o coin.o ../coin.cpp
 	g++ $(FLAGS) $(OBJ) -o pizza
 
 out/%.o : %.cpp $(HD)
