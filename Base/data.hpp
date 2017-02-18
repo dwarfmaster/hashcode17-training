@@ -46,6 +46,14 @@ struct Part {
     size_t x1, x2, y1, y2;
 };
 
+inline bool operator<(const Part& p1, const Part& p2) {
+    return p1.x1 < p2.x1 || (p1.x1 == p2.x1 && p1.y1 < p2.y1);
+}
+
+inline bool operator<=(const Part& p1, const Part& p2) {
+    return p1.x1 < p2.x1 || (p1.x1 == p2.x1 && p1.y1 <= p2.y1);
+}
+
 inline ostream& operator<< (ostream& out, const Part& pt) {
     out << pt.x1 << " " << pt.y1 << " " << pt.x2 << " " << pt.y2;
     return out;
