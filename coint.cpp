@@ -244,7 +244,7 @@ int main()
                         valid &= (i - cur.r + 1) * (borneMax - cur.c + 1) <= maxi;
                     }
                     if(borneMax != deb)
-                        sel.push_back(Coin(i, rand() % (borneMax-min(deb, borneMax-1)) + min(deb, borneMax - 1), rand()%(int)(1E9+7)));
+                        sel.push_back(Coin(i, rand() % (borneMax-max(deb, borneMax-1)) + max(deb, borneMax - 1), rand()%(int)(1E9+7)));
                 }
                 if(sel.size() && rand()%10)
                 {
@@ -263,9 +263,9 @@ int main()
                             pris[i][j] = 1;
                     if(nbLig < 600)
                     {
-                        FORU(i, cur.r, cur.r)
+                        FORU(i, cur.r, cur.r+1)
                             coins.insert(Coin(i, sel[0].c+1, rand()%(int)(1E9+7)));
-                        FORU(i, cur.c, cur.c)
+                        FORU(i, cur.c, cur.c+1)
                             coins.insert(Coin(sel[0].r+1, i, rand()%(int)(1E9+7)));
                     }
                     //FORU(i, cur.r, sel[0].r+1)
