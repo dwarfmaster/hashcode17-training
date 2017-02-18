@@ -2,6 +2,7 @@
 #ifndef DEF_DATA_H
 #define DEF_DATA_H
 #include <vector>
+#include <iostream>
 using namespace std;
 
 typedef long long int lli;
@@ -51,7 +52,11 @@ inline ostream& operator<< (ostream& out, const Part& pt) {
 }
 
 inline PizzaData partValue(const Pizza& piz, const Part& p) {
-    return piz[p.x2][p.y2] + piz[p.x1][p.y1] - piz[p.x1][p.y2] - piz[p.x2][p.y1];
+    PizzaData res = piz[p.x2][p.y2];
+    if (p.x1 >0 && p.y1 > 0) res += piz[p.x1-1][p.y1-1];
+    if (p.x1 >0) res -= piz[p.x1-1][p.y2];
+    if (p.y1 >0) res -= piz[p.x2][p.y1-1];
+    return res;
 }
 
 #endif
