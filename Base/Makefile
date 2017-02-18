@@ -4,7 +4,7 @@ FLAGS= -std=c++14 -Wall -Wextra
 
 SRC=$(wildcard *.cpp)
 OBJ = $(patsubst %.cpp, out/%.o, $(SRC))
-HD = $(wildcard *.h)
+HD = $(wildcard *.hpp)
 
 all: pizza
 
