@@ -47,7 +47,7 @@ struct Coin
     }
 };
 
-int nbLig, nbCol, mini, maxi;
+int nbLig, nbCol;
 lli cPizza[1042][1042];
 int n;
 char tmp;
@@ -60,7 +60,7 @@ bool dejaVu[1042][1042];
 set<Coin> coins;
 vector<Part> parts;
 
-vector<Part> coin(vector<vector<bool> > pizza)
+vector<Part> coin(vector<vector<bool> > pizza, int mini, int maxi)
 {
     parts.clear();
     srand(time(NULL));
