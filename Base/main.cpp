@@ -1,7 +1,10 @@
 #include <iostream>
 #include <vector>
+#include <list>
 #include "prettyprint.hpp"
 #include "data.hpp"
+
+list<Part> quad(const Pizza&, lli, lli);
 
 using namespace std;
 
@@ -21,9 +24,8 @@ int main ()
 {
     int R =0 , C = 0 , H = 0, L = 0;
 
-    cin >> R >> C >> H >> L;
+    cin >> R >> C >> L >> H;
     Pizza piz (R,vector<PizzaData>(C));
-    cout << "hey !" << endl;
     for(int i =0 ; i < R ; ++i){
         for(int j = 0 ; j < C ; ++j){
             char t;
@@ -37,9 +39,14 @@ int main ()
         }
     }
 
-    cout << piz <<endl;
-    computeSums(piz);
-    cout << piz << endl;
+    /* 
+     * computeSums(piz);
+     * cout << piz << endl;
+     */
+
+    list<Part> result = quad(piz, L, H);
+    cout << result.size() << endl;
+    for(auto it = result.begin(); it != result.end(); ++it) cout << *it << endl;
 
     return 0;
 }
