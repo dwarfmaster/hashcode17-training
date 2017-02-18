@@ -1,8 +1,5 @@
 #!/bin/sh
 
-g++ -Wall -Wextra -o $1 $1.cpp
-g++ -Wall -Wextra -o checker checker.cpp
-
 for i in *.in; do
     echo $i
     ls sols/${i%.in}* | sed 's/sols\/[^\.]*\.\([^\.]*\)\.[^\.]*/\1/' | sort -n | tail -1
