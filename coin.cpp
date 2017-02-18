@@ -241,6 +241,13 @@ int main()
                     FORU(i, cur.r, sel[0].r)
                         FORU(j, cur.c, sel[0].c)
                             pris[i][j] = 1;
+                    if(nbLig < 600)
+                    {
+                        FORU(i, cur.r, cur.r)
+                            coins.insert(Coin(i, sel[0].c+1, rand()%(int)(1E9+7)));
+                        FORU(i, cur.c, cur.c)
+                            coins.insert(Coin(sel[0].r+1, i, rand()%(int)(1E9+7)));
+                    }
                     //FORU(i, cur.r, sel[0].r+1)
                     //    coins.insert(Coin(i, sel[0].c+1, rand()%(int)(1E9+7)));
                     //FORU(i, cur.c, sel[0].c)
