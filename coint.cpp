@@ -246,7 +246,7 @@ int main()
                     if(borneMax != deb)
                         sel.push_back(Coin(i, rand() % (borneMax-min(deb, borneMax-1)) + min(deb, borneMax - 1), rand()%(int)(1E9+7)));
                 }
-                if(sel.size())
+                if(sel.size() && rand()%10)
                 {
                     sort(sel.begin(), sel.end());
                     Part rep = Part(cur.r, cur.c, sel[0].r, sel[0].c);
