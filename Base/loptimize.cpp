@@ -26,17 +26,15 @@ vector<Part> optimize(vector<Part> result, Pizza piz, lli h) {
 
 
   for(Part p : result) {
-    cout << p << " ";
-    PizzaData pv = partValue(piz,p);
-    int surface = pv.toma + pv.mush;
+    int surface = (1+p.x2-p.x1)*(1+p.y2-p.y1);
     Part np = p;
 
     bool not_extended = true;
 
     if(surface < h) {
       int leftspace = h-surface;
-      int w = p.x2 - p.x1;
-      int h = p.y2 - p.y1;
+      int w = 1+p.x2 - p.x1;
+      int h = 1+p.y2 - p.y1;
       // can extend vertically
       if(w <= leftspace) {
         if(p.y1 > 0) {
@@ -48,7 +46,6 @@ vector<Part> optimize(vector<Part> result, Pizza piz, lli h) {
           }
           if(ok) {
             not_extended = false;
-            cout << ":^ ";
             np.y1 = p.y1 - 1;
             for (int x=p.x1; ok && x<=p.x2; x++) {
               piz[x][np.y1].toma = 0;
@@ -66,11 +63,10 @@ vector<Part> optimize(vector<Part> result, Pizza piz, lli h) {
 
           if(ok) {
             not_extended = false;
-            cout << ":v ";
             np.y2 = p.y2 + 1;
             for (int x=p.x1; ok && x<=p.x2; x++) {
-              piz[x][np.y1].toma = 0;
-              piz[x][np.y1].mush = 0;
+              piz[x][np.y2].toma = 0;
+              piz[x][np.y2].mush = 0;
             }
 
           }
@@ -87,7 +83,6 @@ vector<Part> optimize(vector<Part> result, Pizza piz, lli h) {
           }
           if(ok) {
             not_extended = false;
-            cout << ":< ";
             np.x1 = p.x1 - 1;
             for (int y=p.y1; ok && y<=p.y2; y++) {
               piz[np.x1][y].toma = 0;
@@ -103,11 +98,10 @@ vector<Part> optimize(vector<Part> result, Pizza piz, lli h) {
             }
           }
           if(ok) {
-            cout << ":> ";
             np.x2 = p.x2 + 1;
             for (int y=p.y1; ok && y<=p.y2; y++) {
-              piz[np.x1][y].toma = 0;
-              piz[np.x1][y].mush = 0;
+              piz[np.x2][y].toma = 0;
+              piz[np.x2][y].mush = 0;
             }
           }
           ok = true;
@@ -115,7 +109,6 @@ vector<Part> optimize(vector<Part> result, Pizza piz, lli h) {
       }
     }
     optimized.push_back(np);
-    cout << "=> " << np << endl;
   }
 
   return optimized;
@@ -123,9 +116,8 @@ vector<Part> optimize(vector<Part> result, Pizza piz, lli h) {
 
 int main() {
   int R, C, H, L;
-  cin >> R >> C >> H >> L;
+  cin >> R >> C >> L >> H;
   Pizza piz (R,vector<PizzaData>(C));
-  cout << "hey !" << endl;
   for(int i =0 ; i < R ; ++i){
     for(int j = 0 ; j < C ; ++j){
       char t;
@@ -138,23 +130,21 @@ int main() {
       }
     }
   }
-  Part p0;
-  p0.x1 = 0;
-  p0.x2 = 1;
-  p0.y1 = 0;
-  p0.y2 = 1;
 
-  vector<Part> p;
-  p.push_back(p0);
-
-  Part p1;
-  p1.x1 = 0;
-  p1.x2 = 1;
-  p1.y1 = 2;
-  p1.y2 = 3;
-  p.push_back(p1);
-  for(int i=0;i<2;i++) {
-    p = optimize(p,piz,H);
+  int N;
+  cin >> N;
+  vector<Part> lp;
+  for(int i=0; i<N;i++) {
+    Part p;
+    cin >> p.x1 >> p.y1 >> p.x2 >> p.y2;
+    lp.push_back(p);
   }
-  cout << p[0] << p[1] << endl;
+
+  for(int i=0;i<15;i++) {
+    lp = optimize(lp,piz,H);
+  }
+  cout << N << endl;
+  for(int i=0; i<N;i++) {
+    cout << lp[i].x1 << " " << lp[i].y1 << " " << lp[i].x2 << " " << lp[i].y2 << endl;
+  }
 }

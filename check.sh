@@ -1,7 +1,7 @@
 #!/bin/sh
 
-g++ -Wall -Wextra -o $1 $1.cpp
-g++ -Wall -Wextra -o checker checker.cpp
+g++ -Wall -Wextra -o -std=c++11 $1 $1.cpp
+g++ -Wall -Wextra -o -std=c++11 checker checker.cpp
 
 for i in *.in; do
     echo $i
